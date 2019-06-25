@@ -10,6 +10,7 @@ manager.add_command("runserver", Server(host='0.0.0.0', port=app.config["SERVER_
 
 
 def main():
+    app.config['JSON_AS_ASCII'] = False
     manager.run()
 
 

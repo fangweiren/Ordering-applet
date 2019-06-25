@@ -1,6 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from application import app
+
+"""
+统计拦截器
+"""
+from webs.interceptors.Authinterceptor import *
+"""
+蓝图功能，对所有的 url 进行蓝图功能配置
+"""
 from webs.controllers.index import route_index
 from webs.controllers.static import route_static
 from webs.controllers.user.User import route_user
