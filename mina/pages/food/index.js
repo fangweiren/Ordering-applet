@@ -44,37 +44,37 @@ Page({
                 {id: 2, name: "东北菜"},
             ],
             activeCategoryId: 0,
-			goods: [
-			                {
-			                    "id": 1,
-			                    "name": "小鸡炖蘑菇-1",
-			                    "min_price": "15.00",
-			                    "price": "15.00",
-			                    "pic_url": "/images/food.jpg"
-			                },
-			                {
-			                    "id": 2,
-			                    "name": "小鸡炖蘑菇-1",
-			                    "min_price": "15.00",
-			                    "price": "15.00",
-			                    "pic_url": "/images/food.jpg"
-			                },
-			                {
-			                    "id": 3,
-			                    "name": "小鸡炖蘑菇-1",
-			                    "min_price": "15.00",
-			                    "price": "15.00",
-			                    "pic_url": "/images/food.jpg"
-			                },
-			                {
-			                    "id": 4,
-			                    "name": "小鸡炖蘑菇-1",
-			                    "min_price": "15.00",
-			                    "price": "15.00",
-			                    "pic_url": "/images/food.jpg"
-			                }
+            goods: [
+                {
+                    "id": 1,
+                    "name": "小鸡炖蘑菇-1",
+                    "min_price": "15.00",
+                    "price": "15.00",
+                    "pic_url": "/images/food.jpg"
+                },
+                {
+                    "id": 2,
+                    "name": "小鸡炖蘑菇-1",
+                    "min_price": "15.00",
+                    "price": "15.00",
+                    "pic_url": "/images/food.jpg"
+                },
+                {
+                    "id": 3,
+                    "name": "小鸡炖蘑菇-1",
+                    "min_price": "15.00",
+                    "price": "15.00",
+                    "pic_url": "/images/food.jpg"
+                },
+                {
+                    "id": 4,
+                    "name": "小鸡炖蘑菇-1",
+                    "min_price": "15.00",
+                    "price": "15.00",
+                    "pic_url": "/images/food.jpg"
+                }
 
-			 ],
+            ],
             loadingMoreHidden: false
         });
     },
@@ -90,19 +90,19 @@ Page({
             swiperCurrent: e.detail.current
         })
     },
-	listenerSearchInput:function( e ){
-	        this.setData({
-	            searchInput: e.detail.value
-	        });
-	 },
-	 toSearch:function( e ){
-	        this.setData({
-	            p:1,
-	            goods:[],
-	            loadingMoreHidden:true
-	        });
-	        this.getFoodList();
-	},
+    listenerSearchInput: function (e) {
+        this.setData({
+            searchInput: e.detail.value
+        });
+    },
+    toSearch: function (e) {
+        this.setData({
+            p: 1,
+            goods: [],
+            loadingMoreHidden: true
+        });
+        this.getFoodList();
+    },
     tapBanner: function (e) {
         if (e.currentTarget.dataset.id != 0) {
             wx.navigateTo({

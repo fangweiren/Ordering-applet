@@ -5,14 +5,14 @@ Page({
     data: {
         goods_list: [
             {
-                id:22,
+                id: 22,
                 name: "小鸡炖蘑菇",
                 price: "85.00",
                 pic_url: "/images/food.jpg",
                 number: 1,
             },
             {
-                id:22,
+                id: 22,
                 name: "小鸡炖蘑菇",
                 price: "85.00",
                 pic_url: "/images/food.jpg",

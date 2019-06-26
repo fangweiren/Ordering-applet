@@ -2,19 +2,19 @@
 var app = getApp();
 Page({
     data: {
-        "content":"非常愉快的订餐体验~~",
-        "score":10,
-        "order_sn":""
+        "content": "非常愉快的订餐体验~~",
+        "score": 10,
+        "order_sn": ""
     },
     onLoad: function (e) {
 
     },
-    scoreChange:function( e ){
+    scoreChange: function (e) {
         this.setData({
-            "score":e.detail.value
+            "score": e.detail.value
         });
     },
-    doComment:function(){
+    doComment: function () {
         var that = this;
         wx.request({
             url: app.buildUrl("/my/comment/add"),
@@ -26,7 +26,7 @@ Page({
                     return;
                 }
                 that.setData({
-                   user_info:resp.data.info
+                    user_info: resp.data.info
                 });
             }
         });

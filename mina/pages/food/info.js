@@ -12,13 +12,13 @@ Page({
         hideShopPopup: true,
         buyNumber: 1,
         buyNumMin: 1,
-        buyNumMax:1,
+        buyNumMax: 1,
         canSubmit: false, //  选中时候是否允许加入购物车
         shopCarInfo: {},
         shopType: "addShopCar",//购物类型，加入购物车或立即购买，默认为加入购物车,
         id: 0,
         shopCarNum: 4,
-        commentCount:2
+        commentCount: 2
     },
     onLoad: function () {
         var that = this;
@@ -33,9 +33,9 @@ Page({
                 "stock": 2,
                 "price": "80.00",
                 "main_image": "/images/food.jpg",
-                "pics": [ '/images/food.jpg','/images/food.jpg' ]
+                "pics": ['/images/food.jpg', '/images/food.jpg']
             },
-            buyNumMax:2,
+            buyNumMax: 2,
             commentList: [
                 {
                     "score": "好评",
@@ -102,7 +102,7 @@ Page({
         })
     },
     numJianTap: function () {
-        if( this.data.buyNumber <= this.data.buyNumMin){
+        if (this.data.buyNumber <= this.data.buyNumMin) {
             return;
         }
         var currentNum = this.data.buyNumber;
@@ -112,7 +112,7 @@ Page({
         });
     },
     numJiaTap: function () {
-        if( this.data.buyNumber >= this.data.buyNumMax ){
+        if (this.data.buyNumber >= this.data.buyNumMax) {
             return;
         }
         var currentNum = this.data.buyNumber;

@@ -6,6 +6,7 @@ from application import app
 统计拦截器
 """
 from webs.interceptors.Authinterceptor import *
+
 """
 蓝图功能，对所有的 url 进行蓝图功能配置
 """

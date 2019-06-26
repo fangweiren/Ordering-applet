@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint,render_template
+from flask import Blueprint, render_template
 
-route_stat = Blueprint( 'stat_page',__name__ )
+route_stat = Blueprint('stat_page', __name__)
 
-@route_stat.route( "/index" )
+
+@route_stat.route("/index")
 def index():
-    return render_template( "stat/index.html" )
+    return render_template("stat/index.html")
 
-@route_stat.route( "/food" )
+
+@route_stat.route("/food")
 def food():
-    return render_template( "stat/food.html" )
+    return render_template("stat/food.html")
 
-@route_stat.route( "/member" )
+
+@route_stat.route("/member")
 def memebr():
-    return render_template( "stat/member.html" )
+    return render_template("stat/member.html")
 
-@route_stat.route( "/share" )
+
+@route_stat.route("/share")
 def share():
-    return render_template( "stat/share.html" )
+    return render_template("stat/share.html")

@@ -1,26 +1,29 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint,render_template
+from flask import Blueprint, render_template
 
-route_food = Blueprint( 'food_page',__name__ )
+route_food = Blueprint('food_page', __name__)
 
-@route_food.route( "/index" )
+
+@route_food.route("/index")
 def index():
-    return render_template( "food/index.html" )
+    return render_template("food/index.html")
 
-@route_food.route( "/info" )
+
+@route_food.route("/info")
 def info():
-    return render_template( "food/info.html" )
+    return render_template("food/info.html")
 
 
-@route_food.route( "/set" )
+@route_food.route("/set")
 def set():
-    return render_template( "food/set.html" )
+    return render_template("food/set.html")
 
 
-@route_food.route( "/cat" )
+@route_food.route("/cat")
 def cat():
-    return render_template( "food/cat.html" )
+    return render_template("food/cat.html")
 
-@route_food.route( "/cat-set" )
+
+@route_food.route("/cat-set")
 def catSet():
-    return render_template( "food/cat_set.html" )
+    return render_template("food/cat_set.html")

@@ -18,7 +18,7 @@ Page({
         this.initCityData(1);
     },
     //初始化城市数据
-    initCityData:function( level, obj ){
+    initCityData: function (level, obj) {
         if (level == 1) {
             var pinkArray = [];
             for (var i = 0; i < commonCityData.cityData.length; i++) {

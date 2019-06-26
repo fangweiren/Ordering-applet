@@ -1,8 +1,8 @@
 var app = getApp();
 Page({
     data: {
-        statusType: ["待付款", "待发货", "待收货", "待评价", "已完成","已关闭"],
-        status:[ "-8","-7","-6","-5","1","0" ],
+        statusType: ["待付款", "待发货", "待收货", "待评价", "已完成", "已关闭"],
+        status: ["-8", "-7", "-6", "-5", "1", "0"],
         currentType: 0,
         tabClass: ["", "", "", "", "", ""]
     },
@@ -31,7 +31,7 @@ Page({
         that.setData({
             order_list: [
                 {
-					status: -8,
+                    status: -8,
                     status_desc: "待支付",
                     date: "2018-07-01 22:30:23",
                     order_number: "20180701223023001",

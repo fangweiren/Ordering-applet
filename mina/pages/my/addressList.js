@@ -18,7 +18,7 @@ Page({
         that.setData({
             addressList: [
                 {
-                    id:1,
+                    id: 1,
                     name: "编程浪子",
                     mobile: "12345678901",
                     detail: "上海市浦东新区XX",
