@@ -56,16 +56,18 @@
             </tr>
             </thead>
             <tbody>
+            {% if list %}
+            {% for item in list %}
             <tr>
-                <td>1</td>
-                <td>编程浪子2</td>
-                <td>11012031511</td>
-                <td>apanly@163.com</td>
+                <td>{{ item.uid }}</td>
+                <td>{{ item.nickname }}</td>
+                <td>{{ item.mobile }}</td>
+                <td>{{ item.email }}</td>
                 <td>
-                    <a href="{{ buildUrl('/account/info') }}">
+                    <a href="{{ buildUrl('/account/info') }}?id={{ item.uid }}">
                         <i class="fa fa-eye fa-lg"></i>
                     </a>
-                    <a class="m-l" href="{{ buildUrl('/account/set') }}">
+                    <a class="m-l" href="{{ buildUrl('/account/set') }}?id={{ item.uid }}">
                         <i class="fa fa-edit fa-lg"></i>
                     </a>
 
@@ -74,18 +76,17 @@
                     </a>
                 </td>
             </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="5">暂无数据~~</td>
+            </tr>
+            {% endif %}
             </tbody>
         </table>
 
         <!--分页代码已被封装到统一模板文件中-->
-        <div class="row">
-            <div class="col-lg-12">
-                <span class="pagination_count" style="line-height: 40px;">共1条记录 | 每页50条</span>
-                <ul class="pagination pagination-lg pull-right" style="margin: 0 0 ;">
-                    <li class="active"><a href="javascript:void(0);">1</a></li>
-                </ul>
-            </div>
-        </div>
+        {% include "common/pagenation.html" %}
     </div>
 </div>
 {% endblock %}
