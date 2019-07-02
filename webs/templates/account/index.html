@@ -1,16 +1,6 @@
 {% extends "common/layout_main.html" %}
 {% block content %}
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li class="current">
-                    <a href="{{ buildUrl('/account/index') }}">账户列表</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+{% include "common/tab_account.html" %}
 <div class="row">
     <div class="col-lg-12">
         <form class="form-inline wrap_search">
@@ -71,13 +61,19 @@
                     <a href="{{ buildUrl('/account/info') }}?id={{ item.uid }}">
                         <i class="fa fa-eye fa-lg"></i>
                     </a>
-                    <a class="m-l" href="{{ buildUrl('/account/set') }}?id={{ item.uid }}">
-                        <i class="fa fa-edit fa-lg"></i>
-                    </a>
+                    {% if item.status == 1 %}
+                        <a class="m-l" href="{{ buildUrl('/account/set') }}?id={{ item.uid }}">
+                            <i class="fa fa-edit fa-lg"></i>
+                        </a>
 
-                    <a class="m-l remove" href="javascript:void(0);">
-                        <i class="fa fa-trash fa-lg"></i>
-                    </a>
+                        <a class="m-l remove" href="javascript:void(0);" data="{{ item.uid }}">
+                            <i class="fa fa-trash fa-lg"></i>
+                        </a>
+                    {% else %}
+                        <a class="m-l recover" href="javascript:void(0);" data="{{ item.uid }}">
+                            <i class="fa fa-rotate-left fa-lg"></i>
+                        </a>
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}

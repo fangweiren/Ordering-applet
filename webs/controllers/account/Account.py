@@ -137,3 +137,39 @@ def set():
     db.session.add(model_user)
     db.session.commit()
     return jsonify(resp)
+
+
+@route_account.route("/ops", methods=["POST"])
+def ops():
+    resp = {"code": 200, "msg": "操作成功~", "data": {}}
+    req = request.values
+
+    id = req["id"] if "id" in req else 0
+    act = req["act"] if "act" in req else ""
+
+    if not id:
+        resp["code"] = -1
+        resp["msg"] = "请选择要操作的账号~~"
+        return jsonify(resp)
+
+    if act not in ["remove", "recover"]:
+        resp["code"] = -1
+        resp["msg"] = "操作有误，请重试~~"
+        return jsonify(resp)
+
+    user_info = User.query.filter_by(uid=id).first()
+    if not user_info:
+        resp["code"] = -1
+        resp["msg"] = "指定账号不存在~~"
+        return jsonify(resp)
+
+    if act == "remove":
+        user_info.status = 0
+        resp["msg"] = "账号删除~~"
+    elif act == "recover":
+        user_info.status = 1
+        resp["msg"] = "账号恢复~~"
+    user_info.update_time = getCurrentDate()
+    db.session.add(user_info)
+    db.session.commit()
+    return jsonify(resp)
