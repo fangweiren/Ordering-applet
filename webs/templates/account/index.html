@@ -18,15 +18,19 @@
                 <div class="form-group">
                     <select name="status" class="form-control inline">
                         <option value="-1">请选择状态</option>
-                        <option value="1">正常</option>
-                        <option value="0">已删除</option>
+                        {% for tem_key in status_mapping %}
+                        <option value="{{ tem_key }}" {% if tem_key== search_con.status %} selected {% endif %}>{{
+                            status_mapping[tem_key] }}
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
 
                 <div class="form-group">
                     <div class="input-group">
-                        <input type="text" name="mix_kw" placeholder="请输入姓名或者手机号码" class="form-control" value="">
-                        <input type="hidden" name="p" value="1">
+                        <input type="text" name="mix_kw" placeholder="请输入姓名或者手机号码" class="form-control"
+                               value="{{ search_con.mix_kw }}">
+                        <input type="hidden" name="p" value="{{ search_con.p }}">
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-primary search">
                                 <i class="fa fa-search"></i>搜索
@@ -89,4 +93,7 @@
         {% include "common/pagenation.html" %}
     </div>
 </div>
+{% endblock %}
+{% block js %}
+<script src="{{ buildStaticUrl('/js/account/index.js') }}"></script>
 {% endblock %}

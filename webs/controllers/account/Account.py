@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from flask import Blueprint, request, redirect, jsonify
+from sqlalchemy import or_
 from common.libs.Helper import ops_render, iPagination, getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.libs.user.UserService import UserService
@@ -14,14 +15,25 @@ route_account = Blueprint("account_page", __name__)
 def index():
     resp_data = {}
     req = request.values
-    page = int(req["page"]) if ("page" in req and req["page"]) else 1
+    page = int(req["p"]) if ("p" in req and req["p"]) else 1
     query = User.query
+
+    # 昵称或手机号码查询
+    if "mix_kw" in req:
+        rule = or_(User.nickname.ilike("%{0}%".format(req["mix_kw"])),
+                   User.mobile.ilike("%{0}%".format(req["mix_kw"])))
+        query = query.filter(rule)
+
+    # 状态查询
+    if "status" in req and int(req["status"]) > -1:
+        query = query.filter(User.status == int(req["status"]))
+
     page_params = {
         "total": query.count(),
         "page_size": app.config["PAGE_SIZE"],
         "page": page,
         "display": app.config["PAGE_DISPLAY"],
-        "url": "/account/index"
+        "url": request.full_path.replace("&p={}".format(page), "")
     }
     pages = iPagination(page_params)
     offset = (page - 1) * app.config["PAGE_SIZE"]
@@ -29,6 +41,8 @@ def index():
     list = query.order_by(User.uid.desc()).all()[offset:limit]
     resp_data["list"] = list
     resp_data["pages"] = pages
+    resp_data["search_con"] = req
+    resp_data["status_mapping"] = app.config["STATUS_MAPPING"]
     return ops_render("account/index.html", resp_data)
 
 
