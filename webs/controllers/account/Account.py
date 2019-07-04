@@ -6,6 +6,7 @@ from common.libs.Helper import ops_render, iPagination, getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.libs.user.UserService import UserService
 from common.models.User import User
+from common.models.log.AppAccessLog import AppAccessLog
 from application import app, db
 
 route_account = Blueprint("account_page", __name__)
@@ -56,7 +57,10 @@ def info():
     info = User.query.filter_by(uid=uid).first()
     if not info:
         return redirect(UrlManager.buildUrl("/account/index"))
+
+    access_list = AppAccessLog.query.filter_by(uid=uid).order_by(-AppAccessLog.id)[:10]
     resp_data["info"] = info
+    resp_data["access_list"] = access_list
     return ops_render("account/info.html", resp_data)
 
 
