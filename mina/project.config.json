@@ -18,7 +18,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.7.3",
+	"libVersion": "2.7.4",
 	"appid": "wx759d38ee4da2062d",
 	"projectname": "test_mina",
 	"isGameTourist": false,
