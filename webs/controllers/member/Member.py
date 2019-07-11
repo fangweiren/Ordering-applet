@@ -71,6 +71,9 @@ def set():
         if not member_info:
             return redirect(UrlManager.buildUrl("/member/index"))
 
+        if member_info.status != 1:
+            return redirect(UrlManager.buildUrl("/member/index"))
+
         resp_data["member_info"] = member_info
         resp_data["current"] = "index"
         return ops_render("member/set.html", resp_data)
@@ -94,6 +97,42 @@ def set():
 
     member_info.nickname = nickname
     member_info.updated_time = getCurrentDate()
+    db.session.add(member_info)
+    db.session.commit()
+    return jsonify(resp)
+
+
+@route_member.route("/ops", methods=["POST"])
+def ops():
+    resp = {"code": 200, "msg": "操作成功~", "data": {}}
+    req = request.values
+
+    id = req["id"] if "id" in req else 0
+    act = req["act"] if "act" in req else ""
+
+    if not id:
+        resp["code"] = -1
+        resp["msg"] = "请选择要操作的账号~~"
+        return jsonify(resp)
+
+    if act not in ["remove", "recover"]:
+        resp["code"] = -1
+        resp["msg"] = "操作有误，请重试~~"
+        return jsonify(resp)
+
+    member_info = Member.query.filter_by(id=id).first()
+    if not member_info:
+        resp["code"] = -1
+        resp["msg"] = "指定会员不存在~~"
+        return jsonify(resp)
+
+    if act == "remove":
+        member_info.status = 0
+        resp["msg"] = "账号删除~~"
+    else:
+        member_info.status = 1
+        resp["msg"] = "账号恢复~~"
+    member_info.update_time = getCurrentDate()
     db.session.add(member_info)
     db.session.commit()
     return jsonify(resp)
