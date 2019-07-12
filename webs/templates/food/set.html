@@ -87,3 +87,9 @@
     </div>
 </div>
 {% endblock %}
+{% block js %}
+<script src="{{ buildStaticUrl('/plugins/ueditor/ueditor.config.js') }}"></script>
+<script src="{{ buildStaticUrl('/plugins/ueditor/ueditor.all.min.js') }}"></script>
+<script src="{{ buildStaticUrl('/plugins/ueditor/lang/zh-cn/zh-cn.js') }}"></script>
+<script src="{{ buildStaticUrl('/js/food/set.js') }}"></script>
+{% endblock %}
