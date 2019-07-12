@@ -21,8 +21,11 @@
                 <div class="form-group">
                     <select name="status" class="form-control inline">
                         <option value="-1">请选择状态</option>
-                        <option value="1">正常</option>
-                        <option value="0">已删除</option>
+                        {% for tem_key in status_mapping %}
+                        <option value="{{ tem_key }}" {% if tem_key== search_con.status %} selected {% endif %}>
+                            {{ status_mapping[tem_key] }}
+                        </option>
+                        {% endfor %}
                     </select>
                 </div>
             </div>
@@ -48,23 +51,39 @@
             </tr>
             </thead>
             <tbody>
+            {% if list %}
+            {% for item in list %}
             <tr>
-                <td>8</td>
-                <td>111</td>
-                <td>正常</td>
-                <td>11</td>
+                <td>{{ item.id }}</td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.status_desc }}</td>
+                <td>{{ item.weight }}</td>
                 <td>
-                    <a class="m-l" href="{{ buildUrl('/food/cat-set') }}">
+                    {% if item.status == 1 %}
+                    <a class="m-l" href="{{ buildUrl('/food/cat-set') }}?id={{ item.id }}">
                         <i class="fa fa-edit fa-lg"></i>
                     </a>
-
-                    <a class="m-l remove" href="javascript:void(0);" data="8">
+                    <a class="m-l remove" href="javascript:void(0);" data="{{ item.id }}">
                         <i class="fa fa-trash fa-lg"></i>
                     </a>
+                    {% else %}
+                    <a class="m-l recover" href="javascript:void(0);" data="{{ item.id }}">
+                        <i class="fa fa-rotate-left fa-lg"></i>
+                    </a>
+                    {% endif %}
                 </td>
             </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="5">暂无数据~~</td>
+            </tr>
+            {% endif %}
             </tbody>
         </table>
     </div>
 </div>
+{% endblock %}
+{% block js %}
+<script src="{{ buildStaticUrl('/js/food/cat.js') }}"></script>
 {% endblock %}
