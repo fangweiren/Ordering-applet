@@ -20,6 +20,7 @@ from webs.controllers.food.Food import route_food
 from webs.controllers.member.Member import route_member
 from webs.controllers.stat.Stat import route_stat
 from webs.controllers.api import route_api
+from webs.controllers.upload.Upload import route_upload
 
 app.register_blueprint(route_index, url_prefix="/")
 app.register_blueprint(route_static, url_prefix="/static")
@@ -30,3 +31,4 @@ app.register_blueprint(route_food, url_prefix="/food")
 app.register_blueprint(route_member, url_prefix="/member")
 app.register_blueprint(route_stat, url_prefix="/stat")
 app.register_blueprint(route_api, url_prefix="/api")
+app.register_blueprint(route_upload, url_prefix="/upload")
