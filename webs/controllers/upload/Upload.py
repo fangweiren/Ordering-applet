@@ -39,4 +39,9 @@ def uploadImage():
         return jsonify(resp)
 
     ret = UploadService.uploadByFile(upfile)
+    if ret["code"] != 200:
+        resp["state"] = "上传失败" + ret["msg"]
+        return jsonify(resp)
+
+    resp["url"] = ret["data"]["file_key"]
     return jsonify(resp)
