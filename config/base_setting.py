@@ -33,5 +33,9 @@ MINA_APP = {
 UPLOAD = {
     "ext": ["jpg", "gif", "bmp", "jpeg", "png"],
     "prefix_path": "/webs/static/upload/",
-    "prefix_url": "/status/upload"
+    "prefix_url": "/static/upload/"
+}
+
+APP = {
+    "domain": "http://192.168.37.133:9000"
 }

@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 from werkzeug.utils import secure_filename
 from common.libs.Helper import getCurrentDate
-from application import app
+from common.models.Image import Image
+from application import app, db
 import os
 import stat
 import uuid
@@ -31,7 +32,13 @@ class UploadService:
         file_name = str(uuid.uuid4()).replace("-", "") + "." + ext
         file.save("{0}/{1}".format(save_dir, file_name))
 
+        model_image = Image()
+        model_image.file_key = file_dir + "/" + file_name
+        model_image.created_time = getCurrentDate()
+        db.session.add(model_image)
+        db.session.commit()
+
         resp["data"] = {
-            "file_key": file_dir + "/" + file_name
+            "file_key": model_image.file_key
         }
         return resp
