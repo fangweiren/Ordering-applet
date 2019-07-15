@@ -24,7 +24,6 @@ class UploadService:
         root_path = app.root_path + config_upload["prefix_path"]
         file_dir = getCurrentDate("%Y%m%d")
         save_dir = root_path + file_dir
-        app.logger.info(save_dir)
         if not os.path.exists(save_dir):
             os.mkdir(save_dir)
             os.chmod(save_dir, stat.S_IRWXU | stat.S_IRGRP | stat.S_IRWXO)
