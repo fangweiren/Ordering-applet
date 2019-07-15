@@ -1,19 +1,6 @@
 {% extends "common/layout_main.html" %}
 {% block content %}
-<div class="row  border-bottom">
-    <div class="col-lg-12">
-        <div class="tab_title">
-            <ul class="nav nav-pills">
-                <li class="current">
-                    <a href="{{ buildUrl('/food/index') }}">美食列表</a>
-                </li>
-                <li>
-                    <a href="{{ buildUrl('/food/cat') }}">分类列表</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
+{% include "common/tab_food.html" %}
 <div class="row mg-t20 wrap_food_set" style="">
     <div class="col-lg-12" style="">
         <h2 class="text-center">设置</h2>
