@@ -77,6 +77,7 @@ Page({
             ],
             loadingMoreHidden: false
         });
+        this.getBannerAndCat()
     },
     scroll: function (e) {
         var that = this, scrollTop = that.data.scrollTop;
@@ -114,5 +115,23 @@ Page({
         wx.navigateTo({
             url: "/pages/food/info?id=" + e.currentTarget.dataset.id
         });
+    },
+    getBannerAndCat: function () {
+        var that = this;
+        wx.request({
+            url: app.buildUrl("/food/index"),
+            header: app.getRequestHeader(),
+            success: function (res) {
+                var resp = res.data;
+                if (resp.code != 200) {
+                    app.alert({"content": resp.msg})
+                    return;
+                }
+                that.setData({
+                    banners: resp.data.banner_list,
+                    categories: resp.data.cat_list,
+                })
+            }
+        })
     }
 });
