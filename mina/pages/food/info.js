@@ -2,6 +2,7 @@
 //获取应用实例
 var app = getApp();
 var WxParse = require('../../wxParse/wxParse.js');
+var utils = require('../../utils/util.js');
 
 Page({
     data: {
@@ -20,22 +21,14 @@ Page({
         shopCarNum: 4,
         commentCount: 2
     },
-    onLoad: function () {
+    onLoad: function (e) {
         var that = this;
 
         that.setData({
-            "info": {
-                "id": 1,
-                "name": "小鸡炖蘑菇",
-                "summary": '<p>多色可选的马甲</p><p><img src="http://www.timeface.cn/uploads/times/2015/07/071031_f5Viwp.jpg"/></p><p><br/>相当好吃了</p>',
-                "total_count": 2,
-                "comment_count": 2,
-                "stock": 2,
-                "price": "80.00",
-                "main_image": "/images/food.jpg",
-                "pics": ['/images/food.jpg', '/images/food.jpg']
-            },
-            buyNumMax: 2,
+            id: e.id
+        });
+
+        that.setData({
             commentList: [
                 {
                     "score": "好评",
@@ -57,8 +50,9 @@ Page({
                 }
             ]
         });
-
-        WxParse.wxParse('article', 'html', that.data.info.summary, that, 5);
+    },
+    onShow: function () {
+        this.getInfo();
     },
     goShopCar: function () {
         wx.reLaunch({
@@ -126,5 +120,49 @@ Page({
         this.setData({
             swiperCurrent: e.detail.current
         })
+    },
+    getInfo: function () {
+        var that = this;
+        wx.request({
+            url: app.buildUrl("/food/info"),
+            header: app.getRequestHeader(),
+            data: {
+                id: that.data.id
+            },
+            success: function (res) {
+                var resp = res.data;
+                if (resp.code != 200) {
+                    app.alert({"content": resp.msg});
+                    return;
+                }
+                that.setData({
+                    info: resp.data.info,
+                    buyNumMax: resp.data.info.stock,
+                });
+                WxParse.wxParse('article', 'html', that.data.info.summary, that, 5);
+            }
+        });
+    },
+    onShareAppMessage: function () {
+        var that = this;
+        wx.request({
+            url: app.buildUrl("/member/share"),
+            header: app.getRequestHeader(),
+            method: "POST",
+            data: {
+                url: utils.getCurrentPageUrlWithArgs()
+            },
+            success: function (res) {
+
+            }
+        });
+        /*
+        小程序分享接口调整，不再支持分享回调参数 success、fail、complete
+        https://developers.weixin.qq.com/community/develop/doc/000eacab888a20e8a2579099754401
+         */
+        return {
+            title: that.data.info.name,
+            path: '/pages/food/info?id=' + that.data.info.id,
+        };
     }
 });

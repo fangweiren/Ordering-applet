@@ -24,8 +24,9 @@ Page({
         wx.setNavigationBarTitle({
             title: app.globalData.shopName
         });
-
-        this.getBannerAndCat()
+    },
+    onShow: function(){
+        this.getBannerAndCat();
     },
     scroll: function (e) {
         var that = this, scrollTop = that.data.scrollTop;

@@ -7,8 +7,6 @@ from common.models.member.OauthMemberBind import OauthMemberBind
 from common.libs.Helper import getCurrentDate
 from common.libs.member.MemberService import MemberService
 from application import app, db
-import requests
-import json
 
 
 @route_api.route("/member/login", methods=["GET", "POST"])
@@ -90,4 +88,12 @@ def checkReg():
 
     token = "%s#%s" % (MemberService.geneAuthCode(member_info), member_info.id)
     resp["data"] = {"token": token}
+    return jsonify(resp)
+
+
+@route_api.route("/member/share", methods=["POST"])
+def memberShare():
+    resp = {"code": 200, "msg": "操作成功~", "data": {}}
+    req = request.values
+    app.logger.info(req)
     return jsonify(resp)
