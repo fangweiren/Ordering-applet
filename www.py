@@ -6,6 +6,7 @@ from application import app
 统计拦截器
 """
 from webs.interceptors.Authinterceptor import *
+from webs.interceptors.ApiAuthinterceptor import *
 from webs.interceptors.Errorinterceptor import *
 
 """

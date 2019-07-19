@@ -3,6 +3,7 @@
 	"setting": {
 		"urlCheck": false,
 		"es6": true,
+		"enhance": true,
 		"postcss": true,
 		"minified": true,
 		"newFeature": true,
@@ -18,7 +19,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.7.4",
+	"libVersion": "2.7.5",
 	"appid": "wx759d38ee4da2062d",
 	"projectname": "test_mina",
 	"isGameTourist": false,

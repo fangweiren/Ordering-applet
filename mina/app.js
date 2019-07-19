@@ -73,7 +73,7 @@ App({
     getCache: function (key) {
         var value = undefined;
         try {
-            value = wx.setStorageSync(key);
+            value = wx.getStorageSync(key);
         } catch (e) {
         }
         return value;
