@@ -105,5 +105,4 @@ def memberShare():
     model_share.created_time = getCurrentDate()
     db.session.add(model_share)
     db.session.commit()
-    app.logger.info(req)
     return jsonify(resp)

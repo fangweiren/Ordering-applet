@@ -72,7 +72,24 @@ Page({
         this.bindGuiGeTap();
     },
     addShopCar: function () {
-
+        var that = this;
+        var data = {
+            "id": this.data.info.id,
+            "number": this.data.buyNumber,
+        };
+        wx.request({
+            url: app.buildUrl("/cart/set"),
+            header: app.getRequestHeader(),
+            method: "POST",
+            data: data,
+            success: function (res) {
+                var resp = res.data;
+                app.alert({"content": resp.msg});
+                that.setData({
+                    hideShopPopup: true
+                });
+            }
+        });
     },
     buyNow: function () {
         wx.navigateTo({
@@ -138,6 +155,7 @@ Page({
                 that.setData({
                     info: resp.data.info,
                     buyNumMax: resp.data.info.stock,
+                    shopCarNum: resp.data.cart_number
                 });
                 WxParse.wxParse('article', 'html', that.data.info.summary, that, 5);
             }

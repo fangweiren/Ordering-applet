@@ -1,15 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 from webs.controllers.api import route_api
-from flask import request, jsonify
+from flask import request, jsonify, g
 from sqlalchemy import or_
-from common.libs.Helper import getCurrentDate
 from common.libs.UrlManager import UrlManager
 from common.models.food.FoodCat import FoodCat
+from common.models.member.MemberCart import MemberCart
 from common.models.food.Food import Food
-from application import app, db
-import requests
-import json
 
 
 @route_api.route("/food/index")
@@ -92,6 +89,11 @@ def foodInfo():
         resp["msg"] = "美食已下架~~"
         return jsonify(resp)
 
+    member_info = g.member_info
+    cart_number = 0
+    if member_info:
+        cart_number = MemberCart.query.filter_by(member_id=member_info.id).count()
+
     resp["data"]["info"] = {
         "id": food_info.id,
         "name": food_info.name,
@@ -103,5 +105,6 @@ def foodInfo():
         "stock": food_info.stock,
         "pics": [UrlManager.buildImageUrl(food_info.main_image)]
     }
+    resp["data"]["cart_number"] = cart_number
 
     return jsonify(resp)
