@@ -88,3 +88,15 @@ def getDictFilterField(db_model, select_field, key_field, id_list):
 
         ret[getattr(item, key_field)] = item
     return ret
+
+
+def selectFilterObj(obj, field):
+    ret = []
+    for item in obj:
+        if not hasattr(item, field):
+            continue
+        if getattr(item, field):
+            continue
+
+        ret.append(getattr(item, field))
+    return ret
