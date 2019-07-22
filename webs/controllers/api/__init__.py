@@ -6,6 +6,7 @@ route_api = Blueprint("api_page", __name__)
 from webs.controllers.api.Member import *
 from webs.controllers.api.Food import *
 from webs.controllers.api.Cart import *
+from webs.controllers.api.Order import *
 
 
 @route_api.route("/")

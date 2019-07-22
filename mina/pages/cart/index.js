@@ -125,7 +125,7 @@ Page({
         };
 
         var list = this.data.list;
-        for (var i = 0; i < list.lenght; i++) {
+        for (var i = 0; i < list.length; i++) {
             if (!list[i]) {
                 continue
             }

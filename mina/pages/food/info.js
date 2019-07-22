@@ -105,7 +105,7 @@ Page({
                 });
 
         wx.navigateTo({
-            url: "/pages/order/index?data" + JSON.stringify(data)
+            url: "/pages/order/index?data=" + JSON.stringify(data)
         });
     },
     /**
