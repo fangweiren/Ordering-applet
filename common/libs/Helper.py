@@ -95,7 +95,7 @@ def selectFilterObj(obj, field):
     for item in obj:
         if not hasattr(item, field):
             continue
-        if getattr(item, field):
+        if getattr(item, field) in ret:
             continue
 
         ret.append(getattr(item, field))
