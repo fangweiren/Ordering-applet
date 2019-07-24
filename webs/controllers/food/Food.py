@@ -4,6 +4,7 @@ from decimal import Decimal
 from sqlalchemy import or_
 from common.libs.Helper import ops_render, getCurrentDate, iPagination, getDictFilterField
 from common.libs.UrlManager import UrlManager
+from common.libs.food.FoodService import FoodService
 from common.models.food.FoodCat import FoodCat
 from common.models.food.Food import Food
 from common.models.food.FoodStockChangeLog import FoodStockChangeLog
@@ -67,7 +68,8 @@ def info():
     if not food_info:
         return redirect(UrlManager.buildUrl("/food/index"))
 
-    stock_change_list = FoodStockChangeLog.query.filter(FoodStockChangeLog.food_id == id).order_by(FoodStockChangeLog.id.desc()).all()
+    stock_change_list = FoodStockChangeLog.query.filter(FoodStockChangeLog.food_id == id).order_by(
+        FoodStockChangeLog.id.desc()).all()
 
     resp_data["food_info"] = food_info
     resp_data["stock_change_list"] = stock_change_list
@@ -160,14 +162,7 @@ def set():
     db.session.add(model_food)
     ret = db.session.commit()
 
-    model_stock_change = FoodStockChangeLog()
-    model_stock_change.food_id = model_food.id
-    model_stock_change.unit = int(stock) - int(before_stock)
-    model_stock_change.total_stock = stock
-    model_stock_change.note = ""
-    model_stock_change.created_time = getCurrentDate()
-    db.session.add(model_stock_change)
-    db.session.commit()
+    FoodService.setStockChangeLog(model_food.id, int(stock) - int(before_stock), "后台修改")
     return jsonify(resp)
 
 

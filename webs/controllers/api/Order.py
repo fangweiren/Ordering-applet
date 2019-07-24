@@ -4,6 +4,8 @@ from webs.controllers.api import route_api
 from flask import request, jsonify, g
 from common.models.food.Food import Food
 from common.libs.UrlManager import UrlManager
+from common.libs.pay.PayService import PayService
+from common.libs.member.CartService import CartService
 import json
 import decimal
 
@@ -49,4 +51,31 @@ def orderInfo():
     resp["data"]["yun_price"] = str(yun_price)
     resp["data"]["total_price"] = str(pay_price + yun_price)
     resp["data"]["default_address"] = default_address
+    return jsonify(resp)
+
+
+@route_api.route("/order/create", methods=["POST"])
+def orderCreate():
+    resp = {"code": 200, "msg": "操作成功~", "data": {}}
+    req = request.values
+    type = req["type"] if "type" in req else ""
+    params_goods = req["goods"] if "goods" in req else None
+
+    items = []
+    if params_goods:
+        items = json.loads(params_goods)
+
+    if len(items) < 1:
+        resp["code"] = -1
+        resp["msg"] = "下单失败，没有选择商品"
+        return jsonify(resp)
+
+    member_info = g.member_info
+    target = PayService()
+    params = {}
+    resp = target.createOrder(member_info.id, items, params)
+
+    if resp["code"] == 200 and type == "cart":
+        CartService.deleteItem(member_info.id, items)
+
     return jsonify(resp)
