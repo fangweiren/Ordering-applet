@@ -11,6 +11,7 @@ from common.models.pay.PayOrderItem import PayOrderItem
 from common.models.pay.PayOrderCallbackData import PayOrderCallbackData
 from common.libs.Helper import getCurrentDate
 from common.libs.food.FoodService import FoodService
+from common.libs.queue.QueueService import QueueService
 from application import db
 
 
@@ -130,6 +131,10 @@ class PayService:
         except Exception as e:
             db.session.rollback()
             return False
+        QueueService.addQueue("pay", {
+            "member_id": pay_order_info.member_id,
+            "pay_order_id": pay_order_info.id
+        })
 
     @staticmethod
     def addPayCallbackData(pay_order_id=0, type="pay", data=""):
