@@ -70,7 +70,7 @@ Page({
                     signType: 'MD5',
                     paySign: pay_info.paySign,
                     success(res) {
-                        
+
                     },
                     fail(res) {
 

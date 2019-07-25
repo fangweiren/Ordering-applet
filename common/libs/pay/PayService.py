@@ -5,9 +5,10 @@ import hashlib
 import time
 import random
 from common.models.food.Food import Food
+from common.models.food.FoodSaleChangeLog import FoodSaleChangeLog
 from common.models.pay.PayOrder import PayOrder
 from common.models.pay.PayOrderItem import PayOrderItem
-from common.models.pay.PayOrderCallbackData import PayOrderCallbackDatum
+from common.models.pay.PayOrderCallbackData import PayOrderCallbackData
 from common.libs.Helper import getCurrentDate
 from common.libs.food.FoodService import FoodService
 from application import db
@@ -99,6 +100,52 @@ class PayService:
             return resp
 
         return resp
+
+    @staticmethod
+    def orderSuccess(pay_order_id=0, params=None):
+        try:
+            pay_order_info = PayOrder.query.filter_by(id=pay_order_id).first()
+            if not pay_order_info or pay_order_info.status not in [-8, -7]:
+                return True
+
+            pay_order_info.pay_sn = params["pay_sn"] if params and "pay_sn" in params else ""
+            pay_order_info.status = 1
+            pay_order_info.express_status = -7
+            pay_order_info.pay_time = getCurrentDate()
+            pay_order_info.updated_time = getCurrentDate()
+            db.session.add(pay_order_info)
+
+            # 售卖历史
+            pay_order_items = PayOrderItem.query.filter_by(pay_order_id=pay_order_id).all()
+            for order_item in pay_order_items:
+                tmp_model_sale_log = FoodSaleChangeLog()
+                tmp_model_sale_log.food_id = order_item.food_id
+                tmp_model_sale_log.quantity = order_item.quantity
+                tmp_model_sale_log.price = order_item.price
+                tmp_model_sale_log.member_id = order_item.member_id
+                tmp_model_sale_log.created_time = getCurrentDate()
+                db.session.add(tmp_model_sale_log)
+
+            db.session.commit()
+        except Exception as e:
+            db.session.rollback()
+            return False
+
+    @staticmethod
+    def addPayCallbackData(pay_order_id=0, type="pay", data=""):
+        model_callback = PayOrderCallbackData()
+        model_callback.pay_order_id = pay_order_id
+        if type == "pay":
+            model_callback.pay_data = data
+            model_callback.refund_data = ""
+        else:
+            model_callback.refund_data = data
+            model_callback.pay_data = ""
+
+        model_callback.created_time = model_callback.updated_time = getCurrentDate()
+        db.session.add(model_callback)
+        db.session.commit()
+        return True
 
     def geneOrderSn(self):
         m = hashlib.md5()

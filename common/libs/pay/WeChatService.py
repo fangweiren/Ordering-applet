@@ -53,7 +53,6 @@ class WeChatService:
 
         return False
 
-
     def dict_to_xml(self, dict_data):
         xml = ["<xml>"]
         for k, v in dict_data.items():
