@@ -3,7 +3,12 @@
 import hashlib
 import requests
 import uuid
+import json
+import datetime
 import xml.etree.ElementTree as ET
+from common.models.pay.OauthAccessToken import OauthAccessToken
+from common.libs.Helper import getCurrentDate
+from application import app,db
 
 
 class WeChatService:
@@ -70,3 +75,32 @@ class WeChatService:
 
     def get_nonce_str(self):
         return str(uuid.uuid4()).replace("-", "")
+
+    @staticmethod
+    def getAccessToken():
+        token = None
+
+        token_info = OauthAccessToken.query.filter(OauthAccessToken.expired_time >= getCurrentDate()).first()
+        if token_info:
+            token = token_info.access_token
+            return token
+
+        config_mina = app.config["MINA_APP"]
+        url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid={0}&secret={1}".format(
+            config_mina["appid"], config_mina["appkey"])
+
+        r = requests.get(url=url)
+        if r.status_code != 200 or not r.text:
+            return token
+
+        data = json.loads(r.text)
+        now = datetime.datetime.now()
+        date = now + datetime.timedelta(seconds=data["expires_in"] - 200)
+        model_token = OauthAccessToken()
+        model_token.access_token = data["access_token"]
+        model_token.expired_time = date.strftime("%Y-%m-%d %H:%M:%S")
+        model_token.created_time = getCurrentDate()
+        db.session.add(model_token)
+        db.session.commit()
+
+        return data["access_token"]
